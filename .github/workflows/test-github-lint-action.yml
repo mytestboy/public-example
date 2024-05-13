@@ -20,6 +20,6 @@ jobs:
       - name: Run Ninja i18n
         id: ninja-i18n
         # @main ensures that the latest version of the action is used
-        uses: ./target/internal-testing
+        uses: ./internal-testing
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
