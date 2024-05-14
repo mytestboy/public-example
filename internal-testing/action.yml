@@ -14,7 +14,6 @@ runs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         path: target
-  
     - name: Get merge commit sha from PR
       id: get-merge-sha
       shell: bash
@@ -24,13 +23,11 @@ runs:
           https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \
           | jq -r '.merge_commit_sha')
         echo "merge_commit_sha=${merge_commit_sha}" >> $GITHUB_OUTPUT
-  
     - name: Checkout merge
       uses: actions/checkout@v4
       with:
         ref: ${{ steps.get-merge-sha.outputs.merge_commit_sha }}
         token: ${{ secrets.GITHUB_TOKEN }}
         path: merge
-        
     - name: Run Ninja linting
       main: dist/index.cjs
