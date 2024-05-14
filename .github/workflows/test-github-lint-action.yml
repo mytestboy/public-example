@@ -12,10 +12,16 @@ jobs:
   ninja-i18n:
     name: Ninja i18n - GitHub Lint Action
     runs-on: ubuntu-latest
-
+    
     steps:
+      - name: Checkout target
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: testing
+
       - name: Run Ninja i18n
         # @main ensures that the latest version of the action is used
-        uses: opral/ninja-i18n-action@main
+        uses: ./testing/internal-testing
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
