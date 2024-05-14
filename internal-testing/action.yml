@@ -6,19 +6,19 @@ branding:
   color: 'gray-dark'
 
 runs:
-  using: node20
+  using: 'composite'
   steps:
     - name: Checkout target
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ env.GITHUB_TOKEN }}
         path: target
 
     - name: Get merge commit sha from PR
       id: get-merge-sha
       shell: bash
       run: |
-        merge_commit_sha=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        merge_commit_sha=$(curl -s -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \
           | jq -r '.merge_commit_sha')
@@ -28,8 +28,8 @@ runs:
       uses: actions/checkout@v4
       with:
         ref: ${{ steps.get-merge-sha.outputs.merge_commit_sha }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ env.GITHUB_TOKEN }}
         path: merge
 
     - name: Run Ninja linting
-      main: dist/index.cjs
+      run: node dist/index.cjs
