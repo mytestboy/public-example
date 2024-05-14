@@ -3,16 +3,13 @@ name: Ninja i18n action
 on: pull_request_target
 
 # explicitly configure permissions, in case your GITHUB_TOKEN workflow permissions are set to read-only in repository settings
-permissions:
-  actions: write       # Necessary to cancel workflow executions
-  issues: read         # Necessary to read issue comments
-  pull-requests: write # Necessary to comment on PRs
-  contents: read       # Necessary to access the repo content
+permissions: write-all
 
 jobs:
   ninja-i18n:
     name: Ninja i18n - GitHub Lint Action
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,3 +19,4 @@ jobs:
         uses: ./internal-testing
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
