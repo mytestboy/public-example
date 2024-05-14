@@ -7,6 +7,4 @@ branding:
 
 runs:
   using: node20
-  steps:
-    - name: Run Ninja linting
-      main: dist/index.cjs
+  main: dist/index.cjs
