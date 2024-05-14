@@ -1,12 +1,10 @@
 {
-	"title": "Meine tolle Todo-App",
-	"description": "Dies ist eine einfache Todo-App, die Inlang in einer realen Anwendung zeigt.",
+	"title": "Meine Todo App",
+	"description": "Dies ist eine einfache To-Do-App, die Inlang in einer realen Anwendung demonstriert.",
 	"app": {
 		"today": "Heute, {date}",
-		"nrOfTodos": "{count} Aufgaben",
 		"markAsDone": "als erledigt markiert",
-		"markAsIncomplete": "Als unvollständig Aldwin",
-		"deleteTodo": "Löschen"
+		"markAsIncomplete": "Als unvollständig Aldwin"
 	},
 	"pages": {
 		"home": {
