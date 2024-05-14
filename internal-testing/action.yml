@@ -33,5 +33,4 @@ runs:
       path: merge
       
   - name: Run Ninja linting
-    shell: bash
-    run: node index.cjs
+    main: index.cjs
