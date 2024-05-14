@@ -4,8 +4,7 @@
 	"app": {
 		"today": "Heute, {date}",
 		"markAsDone": "als erledigt markiert",
-		"markAsIncomplete": "Als unvollständig Aldwin",
-		"deleteTodo": "Löschen"
+		"markAsIncomplete": "Als unvollständig Aldwin"
 	},
 	"pages": {
 		"home": {
