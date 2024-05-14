@@ -33,4 +33,4 @@ runs:
 
     - name: Run Ninja linting
       shell: bash
-      run: node dist/index.cjs
+      run: node ${{ github.action_path }}/dist/index.cjs
