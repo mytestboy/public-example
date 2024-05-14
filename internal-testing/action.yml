@@ -9,7 +9,6 @@ runs:
   using: node20
   steps:
   - name: Checkout target
-    shell: bash
     id: checkout
     uses: actions/checkout@v4
     with:
@@ -17,6 +16,7 @@ runs:
       path: target
 
   - name: Get merge commit sha from PR
+    shell: bash
     run: |
       merge_commit_sha=$(curl -s -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
         -H "Accept: application/vnd.github.v3+json" \
@@ -26,7 +26,6 @@ runs:
     id: get-merge-sha
 
   - name: Checkout merge
-    shell: bash
     uses: actions/checkout@v4
     with:
       ref: ${{ steps.get-merge-sha.outputs.merge_commit_sha }}
