@@ -32,4 +32,5 @@ runs:
         path: merge
 
     - name: Run Ninja linting
+      shell: bash
       run: node dist/index.cjs
