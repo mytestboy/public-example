@@ -1,5 +1,6 @@
 {
 	"app": {
+		"today": "Today, {date}",
 		"nrOfTodos": "{count} Aufgaben",
 		"markAsDone": "als erledigt markiert",
 		"markAsIncomplete": "Als unvollständig Aldwin",
