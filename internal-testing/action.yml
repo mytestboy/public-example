@@ -6,7 +6,7 @@ branding:
   color: 'gray-dark'
 
 runs:
-  using: 'composite'
+  using: node20
   steps:
     - name: Checkout target
       id: checkout
