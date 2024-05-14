@@ -9,6 +9,7 @@ runs:
   using: node20
   steps:
   - name: Checkout target
+    shell: bash
     id: checkout
     uses: actions/checkout@v4
     with:
@@ -25,10 +26,12 @@ runs:
     id: get-merge-sha
 
   - name: Checkout merge
+    shell: bash
     uses: actions/checkout@v4
     with:
       ref: ${{ steps.get-merge-sha.outputs.merge_commit_sha }}
       token: ${{ env.GITHUB_TOKEN }}
       path: merge
+      
   - name: Run Ninja linting
-    main: index.cjs
+    run: index.cjs
