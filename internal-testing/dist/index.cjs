@@ -60543,12 +60543,21 @@ var ReactiveMap = class extends Map {
 // ../sdk/dist/createNodeishFsWithWatcher.js
 var createNodeishFsWithWatcher = (args) => {
   const pathList = [];
+  let abortControllers = [];
+  const stopWatching = () => {
+    for (const ac of abortControllers) {
+      ac.abort();
+    }
+    abortControllers = [];
+  };
   const makeWatcher = (path) => {
     ;
     (async () => {
       try {
+        const ac = new AbortController();
+        abortControllers.push(ac);
         const watcher = args.nodeishFs.watch(path, {
-          signal: args.abortController.signal,
+          signal: ac.signal,
           persistent: false
         });
         if (watcher) {
@@ -60581,7 +60590,8 @@ var createNodeishFsWithWatcher = (args) => {
     rmdir: args.nodeishFs.rmdir,
     writeFile: args.nodeishFs.writeFile,
     watch: args.nodeishFs.watch,
-    stat: args.nodeishFs.stat
+    stat: args.nodeishFs.stat,
+    stopWatching
   };
 };
 
@@ -61865,11 +61875,6 @@ function createMessagesQuery({ projectPath, nodeishFs, settings, resolvedModules
     const resolvedPluginApi = resolvedModules()?.resolvedPluginApi;
     if (!resolvedPluginApi)
       return;
-    const abortController = new AbortController();
-    onCleanup3(() => {
-      abortController.abort();
-      delegate?.onCleanup();
-    });
     const fsWithWatcher = createNodeishFsWithWatcher({
       nodeishFs,
       // this message is called whenever a file changes that was read earlier by this filesystem
@@ -61889,8 +61894,11 @@ function createMessagesQuery({ projectPath, nodeishFs, settings, resolvedModules
         }).then(() => {
           onLoadMessageResult();
         });
-      },
-      abortController
+      }
+    });
+    onCleanup3(() => {
+      fsWithWatcher.stopWatching();
+      delegate?.onCleanup();
     });
     if (!resolvedPluginApi.loadMessages) {
       onInitialMessageLoadResult(new Error("no loadMessages in resolved Modules found"));
@@ -63011,13 +63019,8 @@ ${lintSummary.map(
       core.setFailed(error_message);
     }
   } catch (error) {
+    console.log(error);
     if (error instanceof Error) {
-      if (error.message.includes("ENOENT: no such file or directory") && error.message.includes("'target'")) {
-        core.setFailed(
-          "Your workflow file needs to be updated. Please copy the new snippet of the ninja_i18n.yml file from the README (https://github.com/opral/ninja-i18n-action)."
-        );
-        return;
-      }
       core.setFailed(error);
     }
   }
